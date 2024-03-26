@@ -2,18 +2,23 @@
     "users": [
       {
         "id": 1,
-        "username": "test1",
-        "password": "Aa@123456"
+        "username": "admin",
+        "password": "admin_user"
       },
       {
         "id": 2,
-        "username": "text2",
-        "password": "Aa@123456"
+        "username": "munya",
+        "password": "munya@123"
       },
       {
         "id": 3,
-        "username": "text3",
-        "password":"Aa@123456"
+        "username": "trust",
+        "password": "tust@123"
+      },
+      {
+        "id": 4,
+        "username": "delight",
+        "password":"delight@123"
       }
     ]
   }

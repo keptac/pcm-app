@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode/helper/shared_preferences.dart';
-import 'package:qrcode/styles/app_colors.dart';
-import 'package:qrcode/styles/app_styletext.dart';
-import 'package:qrcode/utils/constants/size_constants.dart';
-import 'package:qrcode/widgets/custom_button.dart';
+import 'package:zeucpcm/helper/shared_preferences.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
+import 'package:zeucpcm/styles/app_styletext.dart';
+import 'package:zeucpcm/utils/constants/size_constants.dart';
+import 'package:zeucpcm/widgets/custom_button.dart';
 import 'package:get/get.dart';
 
 class SignOutDialog extends StatelessWidget {

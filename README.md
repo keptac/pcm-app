@@ -1,4 +1,4 @@
-# qrcode
+# zeucpcm
 
 A new Flutter QR Scanner Project for Data Entry using GetX state management architecture.
 

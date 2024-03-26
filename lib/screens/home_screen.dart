@@ -4,22 +4,22 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qrcode/controllers/home_controller.dart';
-import 'package:qrcode/main.dart';
-import 'package:qrcode/model/delegate_info.dart';
-import 'package:qrcode/model/user_info.dart';
-import 'package:qrcode/model/user_role.dart';
-import 'package:qrcode/screens/initialization_screen.dart';
-import 'package:qrcode/screens/qr_scanner.dart';
-import 'package:qrcode/services/api.dart';
-import 'package:qrcode/styles/app_colors.dart';
-import 'package:qrcode/styles/app_styletext.dart';
-import 'package:qrcode/utils/constants/size_constants.dart';
-import 'package:qrcode/widgets/customDialogs/create_user_dialog.dart';
-import 'package:qrcode/widgets/customDialogs/verification_dialog.dart';
-import 'package:qrcode/widgets/custom_button.dart';
-import 'package:qrcode/widgets/k_inputfield.dart';
-import 'package:qrcode/widgets/user_tile.dart';
+import 'package:zeucpcm/controllers/home_controller.dart';
+import 'package:zeucpcm/main.dart';
+import 'package:zeucpcm/model/delegate_info.dart';
+import 'package:zeucpcm/model/user_info.dart';
+import 'package:zeucpcm/model/user_role.dart';
+import 'package:zeucpcm/screens/initialization_screen.dart';
+import 'package:zeucpcm/screens/qr_scanner.dart';
+import 'package:zeucpcm/services/api.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
+import 'package:zeucpcm/styles/app_styletext.dart';
+import 'package:zeucpcm/utils/constants/size_constants.dart';
+import 'package:zeucpcm/widgets/customDialogs/create_user_dialog.dart';
+import 'package:zeucpcm/widgets/customDialogs/verification_dialog.dart';
+import 'package:zeucpcm/widgets/custom_button.dart';
+import 'package:zeucpcm/widgets/k_inputfield.dart';
+import 'package:zeucpcm/widgets/user_tile.dart';
 import 'package:get/get.dart';
 // import 'package:connectivity/connectivity.dart';
 
@@ -178,15 +178,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: [
           Scaffold(
             backgroundColor: AppColors.scaffoldBackgroundColor,
-            body: Row(
+            body: Column(
               children: [
                 //Scanner
-                const Expanded(child: QRCodeScanner()),
+                const SizedBox(
+                  width: 400,
+                  height: 400,
+                  child: zeucpcmScanner(),
+                ),
 
                 //Display a list of checkedIn Users
                 SizedBox(
-                  height: height,
-                  width: width * 0.7,
                   child: Column(
                     children: [
                       Padding(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qrcode/helper/shared_preferences.dart';
-import 'package:qrcode/model/user.dart';
-import 'package:qrcode/services/api.dart';
-import 'package:qrcode/styles/app_colors.dart';
+import 'package:zeucpcm/helper/shared_preferences.dart';
+import 'package:zeucpcm/model/user.dart';
+import 'package:zeucpcm/services/api.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
 import 'package:connectivity/connectivity.dart';
 
 class LogInController extends GetxController {
@@ -37,7 +37,7 @@ class LogInController extends GetxController {
         margin: const EdgeInsets.all(16),
         isDismissible: true,
         colorText: Colors.white,
-        maxWidth: MediaQuery.of(context).size.width * 0.4);
+        maxWidth: MediaQuery.of(context).size.width * 0.7);
   }
 
   void authSuccess(BuildContext context) {
@@ -48,7 +48,7 @@ class LogInController extends GetxController {
         margin: const EdgeInsets.all(16),
         isDismissible: true,
         colorText: Colors.white,
-        maxWidth: MediaQuery.of(context).size.width * 0.35);
+        maxWidth: MediaQuery.of(context).size.width * 0.60);
     Get.offNamed('/home');
   }
 

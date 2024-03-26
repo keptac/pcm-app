@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode/helper/shared_preferences.dart';
+import 'package:zeucpcm/helper/shared_preferences.dart';
 import 'package:get/get.dart';
-import 'package:qrcode/styles/app_colors.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
 
 class InitializationScreen extends StatefulWidget {
   const InitializationScreen({Key? key}) : super(key: key);

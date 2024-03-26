@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode/controllers/home_controller.dart';
-import 'package:qrcode/styles/app_colors.dart';
-import 'package:qrcode/utils/constants/size_constants.dart';
+import 'package:zeucpcm/controllers/home_controller.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
+import 'package:zeucpcm/utils/constants/size_constants.dart';
 import 'package:get/get.dart';
 
 class UnverifiedDialog extends StatelessWidget {

@@ -2,17 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qrcode/screens/home_screen.dart';
-import 'package:qrcode/screens/initialization_screen.dart';
-import 'package:qrcode/screens/login_screen.dart';
+import 'package:zeucpcm/screens/dashboard.dart';
+import 'package:zeucpcm/screens/home_screen.dart';
+import 'package:zeucpcm/screens/initialization_screen.dart';
+import 'package:zeucpcm/screens/login_screen.dart';
 import 'package:get/get.dart';
 import 'package:csv/csv.dart';
 
 import 'dart:async';
 
 import 'package:path/path.dart';
-import 'package:qrcode/model/delegate_info.dart';
-import 'package:qrcode/screens/subscribe_screen.dart';
+import 'package:zeucpcm/model/delegate_info.dart';
+import 'package:zeucpcm/screens/subscribe_screen.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -85,18 +86,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'VExpo QR',
+      title: 'ZEUC PCM',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       getPages: [
-        GetPage(name: '/init', page: () => InitializationScreen()),
+        GetPage(name: '/init', page: () => const InitializationScreen()),
         GetPage(name: '/login', page: () => const LogInScreen()),
-        GetPage(name: '/home', page: () => const HomeScreen()),
+        GetPage(name: '/home', page: () => const Dashboard()),
+        GetPage(name: '/checkin', page: () => const HomeScreen()),
         GetPage(name: '/subscribe', page: () => const SubscribeScreen()),
       ],
-      initialRoute: '/home',
+      initialRoute: '/init',
     );
   }
 }

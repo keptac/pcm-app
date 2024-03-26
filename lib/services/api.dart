@@ -3,9 +3,9 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:qrcode/controllers/home_controller.dart';
-import 'package:qrcode/model/delegate_info.dart';
-import 'package:qrcode/model/user.dart';
+import 'package:zeucpcm/controllers/home_controller.dart';
+import 'package:zeucpcm/model/delegate_info.dart';
+import 'package:zeucpcm/model/user.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/widgets.dart';

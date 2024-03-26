@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:get/get.dart';
-import 'package:qrcode/controllers/home_controller.dart';
+import 'package:zeucpcm/controllers/home_controller.dart';
 
-class QRCodeScanner extends StatefulWidget {
-  const QRCodeScanner({Key? key}) : super(key: key);
+class zeucpcmScanner extends StatefulWidget {
+  const zeucpcmScanner({Key? key}) : super(key: key);
 
   @override
-  _QRCodeScannerState createState() => _QRCodeScannerState();
+  _zeucpcmScannerState createState() => _zeucpcmScannerState();
 }
 
-class _QRCodeScannerState extends State<QRCodeScanner> {
+class _zeucpcmScannerState extends State<zeucpcmScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
@@ -54,7 +54,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     controller?.dispose();
   }
 
-  void _onQrCodeReading(QRViewController controller) {
+  void _onzeucpcmReading(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
@@ -75,7 +75,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
         child: QRView(
           key: qrKey,
           onQRViewCreated:
-              homeController.scanning.isTrue ? _doNothing : _onQrCodeReading,
+              homeController.scanning.isTrue ? _doNothing : _onzeucpcmReading,
           cameraFacing: CameraFacing.back,
           overlay: QrScannerOverlayShape(
               borderColor: Colors.red,

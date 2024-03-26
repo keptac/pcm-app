@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode/styles/app_colors.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
 
 class AppStyleText {
   static const largeTitleR28 = TextStyle(

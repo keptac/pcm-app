@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qrcode/helper/shared_preferences.dart';
-import 'package:qrcode/model/delegate_info.dart';
-import 'package:qrcode/model/user.dart';
-import 'package:qrcode/model/user_info.dart';
-import 'package:qrcode/model/user_role.dart';
-import 'package:qrcode/services/api.dart';
-import 'package:qrcode/styles/app_colors.dart';
+import 'package:zeucpcm/helper/shared_preferences.dart';
+import 'package:zeucpcm/model/delegate_info.dart';
+import 'package:zeucpcm/model/user.dart';
+import 'package:zeucpcm/model/user_info.dart';
+import 'package:zeucpcm/model/user_role.dart';
+import 'package:zeucpcm/services/api.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:qrcode/widgets/customDialogs/verification_dialog.dart';
+import 'package:zeucpcm/widgets/customDialogs/verification_dialog.dart';
 
 class CreateUserController extends GetxController {
   final TextEditingController firstnameController = TextEditingController();

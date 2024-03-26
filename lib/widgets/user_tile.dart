@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode/model/user_info.dart';
-import 'package:qrcode/styles/app_colors.dart';
-import 'package:qrcode/styles/app_styletext.dart';
-import 'package:qrcode/utils/constants/size_constants.dart';
+import 'package:zeucpcm/model/user_info.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
+import 'package:zeucpcm/styles/app_styletext.dart';
+import 'package:zeucpcm/utils/constants/size_constants.dart';
 import 'package:intl/intl.dart';
 
 class UserTile extends StatelessWidget {

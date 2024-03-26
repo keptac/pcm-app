@@ -1,8 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qrcode/styles/app_colors.dart';
-import 'package:qrcode/utils/constants/size_constants.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
+import 'package:zeucpcm/utils/constants/size_constants.dart';
 
 class KInputField extends StatelessWidget {
   final String hintText;
@@ -37,7 +36,7 @@ class KInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: Sizes.dimen_56,
+      height: Sizes.dimen_60,
       alignment: Alignment.center,
       child: Center(
         child: TextField(
@@ -58,15 +57,15 @@ class KInputField extends StatelessWidget {
               suffixText: suffixText,
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Sizes.dimen_20),
+                borderRadius: BorderRadius.circular(Sizes.dimen_50),
                 borderSide: BorderSide(color: AppColors.primaryColor),
               ),
               filled: true,
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Sizes.dimen_20),
+                  borderRadius: BorderRadius.circular(Sizes.dimen_50),
                   borderSide: BorderSide(color: AppColors.borderColor)),
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Sizes.dimen_20),
+                  borderRadius: BorderRadius.circular(Sizes.dimen_50),
                   borderSide: BorderSide(color: AppColors.borderColor))),
         ),
       ),

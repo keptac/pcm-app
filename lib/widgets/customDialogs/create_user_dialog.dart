@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode/model/delegate_info.dart';
-import 'package:qrcode/model/user_info.dart';
-import 'package:qrcode/model/user_role.dart';
-import 'package:qrcode/services/api.dart';
-import 'package:qrcode/styles/app_colors.dart';
-import 'package:qrcode/styles/app_styletext.dart';
-import 'package:qrcode/utils/constants/size_constants.dart';
-import 'package:qrcode/widgets/customDialogs/verification_dialog.dart';
-import 'package:qrcode/widgets/custom_button.dart';
+import 'package:zeucpcm/model/delegate_info.dart';
+import 'package:zeucpcm/model/user_info.dart';
+import 'package:zeucpcm/model/user_role.dart';
+import 'package:zeucpcm/services/api.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
+import 'package:zeucpcm/styles/app_styletext.dart';
+import 'package:zeucpcm/utils/constants/size_constants.dart';
+import 'package:zeucpcm/widgets/customDialogs/verification_dialog.dart';
+import 'package:zeucpcm/widgets/custom_button.dart';
 import 'package:get/get.dart';
-import 'package:qrcode/widgets/k_inputfield.dart';
+import 'package:zeucpcm/widgets/k_inputfield.dart';
 
 class CreateUserDialog extends StatelessWidget {
   final double height;
@@ -69,9 +69,7 @@ class CreateUserDialog extends StatelessWidget {
       Api().insertDelegate(updatedDelegate);
     }
 
-    return 
-    
-    Dialog(
+    return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 0,
       backgroundColor: AppColors.dialogBoxColor,
@@ -159,7 +157,5 @@ class CreateUserDialog extends StatelessWidget {
         ),
       ),
     );
-  
-  
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:qrcode/model/delegate_info.dart';
-import 'package:qrcode/model/user_info.dart';
-import 'package:qrcode/model/user_role.dart';
-import 'package:qrcode/services/api.dart';
-import 'package:qrcode/widgets/customDialogs/already_checked_dialog.dart';
-import 'package:qrcode/widgets/customDialogs/create_user_dialog.dart';
-import 'package:qrcode/widgets/customDialogs/signout_dialog.dart';
-import 'package:qrcode/widgets/customDialogs/unverified_dialog.dart';
-import 'package:qrcode/widgets/customDialogs/verification_dialog.dart';
+import 'package:zeucpcm/model/delegate_info.dart';
+import 'package:zeucpcm/model/user_info.dart';
+import 'package:zeucpcm/model/user_role.dart';
+import 'package:zeucpcm/services/api.dart';
+import 'package:zeucpcm/widgets/customDialogs/already_checked_dialog.dart';
+import 'package:zeucpcm/widgets/customDialogs/create_user_dialog.dart';
+import 'package:zeucpcm/widgets/customDialogs/signout_dialog.dart';
+import 'package:zeucpcm/widgets/customDialogs/unverified_dialog.dart';
+import 'package:zeucpcm/widgets/customDialogs/verification_dialog.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
@@ -83,8 +83,8 @@ class HomeController extends GetxController {
 
   // Scanning to find checking in user
   void setSubscribersQRUrl(
-      Barcode? qrCodeResult, double height, double width) async {
-    var userId = qrCodeResult?.code;
+      Barcode? zeucpcmResult, double height, double width) async {
+    var userId = zeucpcmResult?.code;
 
     List<DelegateInfo> delegate =
         await Api().getDelegateById(int.parse(userId.toString()));
@@ -124,8 +124,8 @@ class HomeController extends GetxController {
   }
 
   // Scanning to find checking in user
-  void setQRUrl(Barcode? qrCodeResult, double height, double width) async {
-    var userId = qrCodeResult?.code;
+  void setQRUrl(Barcode? zeucpcmResult, double height, double width) async {
+    var userId = zeucpcmResult?.code;
 
     List<DelegateInfo> delegate =
         await Api().getDelegateById(int.parse(userId.toString()));

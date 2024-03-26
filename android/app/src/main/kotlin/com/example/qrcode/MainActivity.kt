@@ -1,4 +1,4 @@
-package com.example.qrcode
+package com.example.zeucpcm
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -4,23 +4,23 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qrcode/controllers/home_controller.dart';
-import 'package:qrcode/main.dart';
-import 'package:qrcode/model/delegate_info.dart';
-import 'package:qrcode/model/user_info.dart';
-import 'package:qrcode/model/user_role.dart';
-import 'package:qrcode/screens/initialization_screen.dart';
-import 'package:qrcode/screens/qr_scanner.dart';
-import 'package:qrcode/screens/qr_scanner_subscribe.dart';
-import 'package:qrcode/services/api.dart';
-import 'package:qrcode/styles/app_colors.dart';
-import 'package:qrcode/styles/app_styletext.dart';
-import 'package:qrcode/utils/constants/size_constants.dart';
-import 'package:qrcode/widgets/customDialogs/create_user_dialog.dart';
-import 'package:qrcode/widgets/customDialogs/verification_dialog.dart';
-import 'package:qrcode/widgets/custom_button.dart';
-import 'package:qrcode/widgets/k_inputfield.dart';
-import 'package:qrcode/widgets/user_tile.dart';
+import 'package:zeucpcm/controllers/home_controller.dart';
+import 'package:zeucpcm/main.dart';
+import 'package:zeucpcm/model/delegate_info.dart';
+import 'package:zeucpcm/model/user_info.dart';
+import 'package:zeucpcm/model/user_role.dart';
+import 'package:zeucpcm/screens/initialization_screen.dart';
+import 'package:zeucpcm/screens/qr_scanner.dart';
+import 'package:zeucpcm/screens/qr_scanner_subscribe.dart';
+import 'package:zeucpcm/services/api.dart';
+import 'package:zeucpcm/styles/app_colors.dart';
+import 'package:zeucpcm/styles/app_styletext.dart';
+import 'package:zeucpcm/utils/constants/size_constants.dart';
+import 'package:zeucpcm/widgets/customDialogs/create_user_dialog.dart';
+import 'package:zeucpcm/widgets/customDialogs/verification_dialog.dart';
+import 'package:zeucpcm/widgets/custom_button.dart';
+import 'package:zeucpcm/widgets/k_inputfield.dart';
+import 'package:zeucpcm/widgets/user_tile.dart';
 import 'package:get/get.dart';
 // import 'package:connectivity/connectivity.dart';
 
@@ -181,7 +181,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
             body: Row(
               children: [
                 //Scanner
-                const Expanded(child: QRCodeScannerSubscribe()),
+                const Expanded(child: zeucpcmScannerSubscribe()),
 
                 //Display a list of checkedIn Users
                 SizedBox(

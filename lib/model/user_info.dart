@@ -1,4 +1,4 @@
-import 'package:qrcode/model/user_role.dart';
+import 'package:zeucpcm/model/user_role.dart';
 
 class UserInfo {
   int id;
