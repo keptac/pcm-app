@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:zeucpcm/screens/dashboard.dart';
 import 'package:zeucpcm/utils/constants.dart';
 import 'package:zeucpcm/screens/login_screen.dart';
 
 class Profile extends StatefulWidget {
-  const Profile() : super();
+  const Profile({Key? key}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -22,17 +23,46 @@ class _ProfileState extends State<Profile> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 40,
-        backgroundColor: Constants.greenColor,
-        title: const Text("Profile"),
-        elevation: 0.0,
+        // toolbarHeight: 2,
+        backgroundColor: const Color.fromARGB(255, 121, 10, 10),
+        elevation: 5.0,
         titleSpacing: 00.0,
         centerTitle: true,
+        title: const Text(
+          "User Profile",
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        ),
         leading: BackButton(
+          color: Colors.white,
           onPressed: () => {
-            // Helper.nextPage(context, RequestServiceFlow());
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Dashboard()),
+            )
           },
         ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onSelected: (value) {},
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                    child: const Text("Logout"),
+                    value: "Logout",
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LogInScreen()));
+                    }),
+              ];
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -46,42 +76,6 @@ class _ProfileState extends State<Profile> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          "assets/images/logo.png",
-                          height: size.height * 0.05,
-                        ),
-                        PopupMenuButton<String>(
-                          onSelected: (value) {},
-                          itemBuilder: (BuildContext context) {
-                            return [
-                              const PopupMenuItem(
-                                child: Text("Notifications"),
-                                value: "Notifications",
-                              ),
-                              PopupMenuItem(
-                                  child: const Text("Logout"),
-                                  value: "Logout",
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LogInScreen()));
-                                  }),
-                            ];
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   const Divider(
                     thickness: 1,
                     color: Constants.greyColor,

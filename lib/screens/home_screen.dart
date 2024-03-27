@@ -10,6 +10,7 @@ import 'package:zeucpcm/model/delegate_info.dart';
 import 'package:zeucpcm/model/user_info.dart';
 import 'package:zeucpcm/model/user_role.dart';
 import 'package:zeucpcm/screens/initialization_screen.dart';
+import 'package:zeucpcm/screens/login_screen.dart';
 import 'package:zeucpcm/screens/qr_scanner.dart';
 import 'package:zeucpcm/services/api.dart';
 import 'package:zeucpcm/styles/app_colors.dart';
@@ -173,190 +174,231 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    return SafeArea(
-      child: Stack(
-        children: [
-          Scaffold(
-            backgroundColor: AppColors.scaffoldBackgroundColor,
-            body: Column(
-              children: [
-                //Scanner
-                const SizedBox(
-                  width: 400,
-                  height: 400,
-                  child: zeucpcmScanner(),
-                ),
+    return Scaffold(
+        appBar: AppBar(
+          // toolbarHeight: 2,
+          backgroundColor: const Color.fromARGB(255, 121, 10, 10),
+          elevation: 5.0,
+          titleSpacing: 00.0,
+          centerTitle: true,
+          title: const Text(
+            "Miscon Checkin",
+            style: TextStyle(color: Colors.white, fontSize: 15),
+          ),
+          leading: BackButton(
+            color: Colors.white,
+            onPressed: () => {Navigator.pop(context)},
+          ),
+          actions: [
+            PopupMenuButton<String>(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
+              onSelected: (value) {},
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem(
+                      child: const Text("Logout"),
+                      value: "Logout",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LogInScreen()));
+                      }),
+                ];
+              },
+            )
+          ],
+        ),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Scaffold(
+                backgroundColor: AppColors.scaffoldBackgroundColor,
+                body: Column(
+                  children: [
+                    //Scanner
+                    const SizedBox(
+                      width: 400,
+                      height: 400,
+                      child: zeucpcmScanner(),
+                    ),
 
-                //Display a list of checkedIn Users
-                SizedBox(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(Sizes.dimen_24),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //Capture button
-                            CustomRaisedBtn(
-                                borderRadius: Sizes.dimen_12,
-                                onPressed: () => {Get.offNamed('/subscribe')},
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: Sizes.dimen_16),
-                                  child: Text(
-                                    'Subcriptions',
-                                    style: AppStyleText.largeTitleM18W,
-                                  ),
+                    //Display a list of checkedIn Users
+                    SizedBox(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(Sizes.dimen_24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                //Capture button
+                                CustomRaisedBtn(
+                                    borderRadius: Sizes.dimen_12,
+                                    onPressed: () =>
+                                        {Get.offNamed('/subscribe')},
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: Sizes.dimen_16),
+                                      child: Text(
+                                        'Subcriptions',
+                                        style: AppStyleText.largeTitleM18W,
+                                      ),
+                                    ),
+                                    color: const Color.fromARGB(255, 0, 61, 2),
+                                    width: 200,
+                                    height: Sizes.dimen_42),
+
+                                Obx(
+                                  () => homeControllerPut.user.isEmpty
+                                      ? const Text(
+                                          "No user checked in yet",
+                                          style: AppStyleText.infoDetailR16S,
+                                        )
+                                      :
+
+                                      //Gets delegates count
+                                      RichText(
+                                          text: TextSpan(
+                                            text: "Checked In Delegates  ",
+                                            style: AppStyleText.infoDetailR16S,
+                                            children: [
+                                              TextSpan(
+                                                text:
+                                                    "${homeControllerPut.user.length}",
+                                                style: AppStyleText
+                                                    .infoDetailR16D7,
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                 ),
-                                color: const Color.fromARGB(255, 0, 61, 2),
-                                width: 200,
-                                height: Sizes.dimen_42),
 
-                            Obx(
-                              () => homeControllerPut.user.isEmpty
-                                  ? const Text(
-                                      "No user checked in yet",
-                                      style: AppStyleText.infoDetailR16S,
-                                    )
-                                  :
+                                //Capture button
+                                CustomRaisedBtn(
+                                    borderRadius: Sizes.dimen_12,
+                                    onPressed: () => showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: const Text('Add Delegate'),
+                                            content:
+                                                createDialog(height, width),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'Cancel'),
+                                                child: const Text('Cancel'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: Sizes.dimen_16),
+                                      child: Text(
+                                        'Capture New Delegate',
+                                        style: AppStyleText.largeTitleM18W,
+                                      ),
+                                    ),
+                                    color: const Color.fromARGB(255, 0, 61, 2),
+                                    width: 250,
+                                    height: Sizes.dimen_42),
+                              ],
+                            ),
+                          ),
 
-                                  //Gets delegates count
-                                  RichText(
-                                      text: TextSpan(
-                                        text: "Checked In Delegates  ",
-                                        style: AppStyleText.infoDetailR16S,
+                          //DISPLAYS DELEGATES CHECKED IN
+                          Obx(
+                            () => Expanded(
+                              child: homeControllerPut.user.isEmpty
+                                  ? const Align(
+                                      alignment: Alignment.center,
+                                      child: Column(
                                         children: [
-                                          TextSpan(
-                                            text:
-                                                "${homeControllerPut.user.length}",
-                                            style: AppStyleText.infoDetailR16D7,
+                                          Icon(
+                                            Icons.list_rounded,
+                                            color: AppColors.secondaryIconColor,
+                                            size: 80,
+                                          ),
+                                          Text(
+                                            'Scan QR to check in',
+                                            style: AppStyleText.largeTitleR28,
                                           )
                                         ],
                                       ),
+                                    )
+                                  : ListView.builder(
+                                      itemCount: homeControllerPut.user.length,
+                                      scrollDirection: Axis.vertical,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return UserTile(
+                                            width: width,
+                                            user: homeControllerPut.user[index],
+                                            formattedDate: homeControllerPut
+                                                .formattedDate[index]);
+                                      },
                                     ),
                             ),
-
-                            //Capture button
-                            CustomRaisedBtn(
-                                borderRadius: Sizes.dimen_12,
-                                onPressed: () => showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: const Text('Add Delegate'),
-                                        content: createDialog(height, width),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                context, 'Cancel'),
-                                            child: const Text('Cancel'),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: Sizes.dimen_16),
-                                  child: Text(
-                                    'Capture New Delegate',
-                                    style: AppStyleText.largeTitleM18W,
-                                  ),
-                                ),
-                                color: const Color.fromARGB(255, 0, 61, 2),
-                                width: 250,
-                                height: Sizes.dimen_42),
-                          ],
-                        ),
-                      ),
-
-                      //DISPLAYS DELEGATES CHECKED IN
-                      Obx(
-                        () => Expanded(
-                          child: homeControllerPut.user.isEmpty
-                              ? const Align(
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.list_rounded,
-                                        color: AppColors.secondaryIconColor,
-                                        size: 80,
-                                      ),
-                                      Text(
-                                        'Scan QR to check in',
-                                        style: AppStyleText.largeTitleR28,
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : ListView.builder(
-                                  itemCount: homeControllerPut.user.length,
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return UserTile(
-                                        width: width,
-                                        user: homeControllerPut.user[index],
-                                        formattedDate: homeControllerPut
-                                            .formattedDate[index]);
-                                  },
-                                ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          //Widgets displayed when scanning is in progress
-          Obx(() => Center(
-              child: homeControllerPut.scanning.isTrue
-                  ? Container(
-                      width: width,
-                      height: height,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(Sizes.dimen_16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.15),
-                            spreadRadius: 5,
-                            blurRadius: 3,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Scanning!',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: AppColors.subTitleTextColor,
-                                decoration: TextDecoration.none),
-                          ),
-                          SizedBox(height: 16),
-                          CupertinoActivityIndicator(),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          Text(
-                            'Please wait',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: AppColors.subTitleTextColor,
-                                decoration: TextDecoration.none),
                           )
                         ],
                       ),
-                    )
-                  : const SizedBox())),
-        ],
-      ),
-    );
+                    ),
+                  ],
+                ),
+              ),
+
+              //Widgets displayed when scanning is in progress
+              Obx(() => Center(
+                  child: homeControllerPut.scanning.isTrue
+                      ? Container(
+                          width: width,
+                          height: height,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(Sizes.dimen_16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.15),
+                                spreadRadius: 5,
+                                blurRadius: 3,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Scanning!',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.subTitleTextColor,
+                                    decoration: TextDecoration.none),
+                              ),
+                              SizedBox(height: 16),
+                              CupertinoActivityIndicator(),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                'Please wait',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: AppColors.subTitleTextColor,
+                                    decoration: TextDecoration.none),
+                              )
+                            ],
+                          ),
+                        )
+                      : const SizedBox())),
+            ],
+          ),
+        ));
   }
 }

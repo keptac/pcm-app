@@ -12,11 +12,13 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
+
+
 class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    const HomePage(),
-    const Profile(),
+    HomePage(),
+    Profile(),
   ];
 
   @override
@@ -43,7 +45,7 @@ class _DashboardState extends State<Dashboard> {
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
               gap: 8,
-              activeColor: Constants.goldColor,
+              activeColor: Constants.redColor,
               iconSize: 24,
               padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 12),
               duration: const Duration(milliseconds: 400),

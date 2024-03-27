@@ -8,7 +8,7 @@ import 'package:zeucpcm/utils/constants.dart';
 import 'home_screen.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage();
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -18,13 +18,13 @@ class _HomePageState extends State<HomePage> {
   final List options = [
     [
       {
-        "name": "Checkin",
+        "name": "CHECK IN",
         "icon": "assets/svg/billpayments.svg",
         "key": "checkin",
         "page": "checkin"
       },
       {
-        "name": "Meals",
+        "name": "MEALS",
         "icon": "assets/svg/billstatement.svg",
         "key": "meals",
         "page": "meals"
@@ -45,12 +45,44 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 2,
-        backgroundColor: Constants.greenColor,
-        elevation: 0.0,
+        // toolbarHeight: 2,
+        backgroundColor: const Color.fromARGB(255, 121, 10, 10),
+        elevation: 5.0,
         titleSpacing: 00.0,
         centerTitle: true,
-        leading: Container(),
+        title: const Text(
+          "ZEUC PCM",
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+          child: Image.asset(
+            "assets/images/white-logo.png",
+            height: size.height * 0.05,
+          ),
+        ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onSelected: (value) {},
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                    child: const Text("Logout"),
+                    value: "Logout",
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LogInScreen()));
+                    }),
+              ];
+            },
+          )
+        ],
       ),
       body: Center(
         child: Container(
@@ -60,98 +92,66 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      "assets/images/logo.png",
-                      height: size.height * 0.05,
-                    ),
-                    PopupMenuButton<String>(
-                      onSelected: (value) {
-                        print(value);
-                      },
-                      itemBuilder: (BuildContext context) {
-                        return [
-                          PopupMenuItem(
-                              child: const Text("Logout"),
-                              value: "Logout",
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LogInScreen()));
-                              }),
-                        ];
-                      },
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              const Divider(
-                thickness: 1,
-                color: Constants.greyColor,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
               Container(
-                // margin: EdgeInsets.symmetric(horizontal: 7),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    color: const Color.fromRGBO(61, 100, 13, 1)
-                    // color: Colors.red
-                    ),
-
+                  borderRadius: BorderRadius.circular(15.0),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 86, 4, 127),
+                      Color.fromARGB(255, 2, 25, 68),
+                      Color.fromARGB(255, 63, 6, 2),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 1,
                       child: Image.asset(
-                        "assets/images/person.png",
-                        fit: BoxFit.fill,
+                        "assets/images/background.jpg",
+                        fit: BoxFit.fitWidth,
                       ),
                     ),
                     const Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Z bills and enquire balance at the comfort of your home',
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.white),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
+                      flex: 3,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'MisCon24',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          Text(
+                            'Present-day Waldenses',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          Text(
+                            '28 March - 01 April 2024',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                        ],
                       ),
                     )
                   ],
                 ),
               ),
               const SizedBox(
-                height: 10.0,
+                height: 70.0,
               ),
-              Expanded(
+              SizedBox(
+                height: 300,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 50.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: List.generate(
-                      2,
+                      1,
                       (index) => Expanded(
                         child: Container(
                           margin:
@@ -212,14 +212,11 @@ Widget serviceCard(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        elevation: 8.0,
+        elevation: 5.0,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
-            // color: isActive ? Constants.goldColor : Constants.greyColor,
-            // color: isActive ? Constants.goldColor: Colors.white,
             color: isActive ? Constants.lightGreenColor : Colors.white,
-
             borderRadius: BorderRadius.circular(12.0),
           ),
           padding: const EdgeInsets.all(16.0),
@@ -234,7 +231,9 @@ Widget serviceCard(
                   height: SizeUtil.height(context, 0.04),
                   width: SizeUtil.width(context, 0.03),
                   // color: isActive ? Colors.white : Constants.greenColor,
-                  color: isActive ? Constants.greenColor : Constants.greenColor,
+                  color: isActive
+                      ? const Color.fromARGB(255, 100, 13, 13)
+                      : const Color.fromARGB(255, 54, 13, 100),
                 ),
               ),
               Text(
