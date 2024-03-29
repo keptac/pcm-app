@@ -40,6 +40,7 @@ dependencies:
   google_fonts: ^4.0.4
   google_nav_bar: ^5.0.6
   fluentui_system_icons: ^1.1.232
+  flutter_vcard: ^0.0.2
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,7 @@ flutter:
     - assets/user.json
     - assets/images/
     - assets/icons/
+    - assets/svg/
     - assets/delegates.csv
   #   - images/a_dot_ham.jpeg
 

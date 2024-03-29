@@ -1,56 +1,47 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zeucpcm/controllers/home_controller.dart';
-import 'package:zeucpcm/main.dart';
-import 'package:zeucpcm/model/delegate_info.dart';
 import 'package:zeucpcm/model/user_info.dart';
-import 'package:zeucpcm/model/user_role.dart';
-import 'package:zeucpcm/screens/initialization_screen.dart';
 import 'package:zeucpcm/screens/login_screen.dart';
 import 'package:zeucpcm/screens/qr_scanner.dart';
-import 'package:zeucpcm/services/api.dart';
 import 'package:zeucpcm/styles/app_colors.dart';
 import 'package:zeucpcm/styles/app_styletext.dart';
 import 'package:zeucpcm/utils/constants/size_constants.dart';
-import 'package:zeucpcm/widgets/customDialogs/create_user_dialog.dart';
 import 'package:zeucpcm/widgets/customDialogs/verification_dialog.dart';
-import 'package:zeucpcm/widgets/custom_button.dart';
-import 'package:zeucpcm/widgets/k_inputfield.dart';
 import 'package:zeucpcm/widgets/user_tile.dart';
 import 'package:get/get.dart';
+
+import '../controllers/meal_controller.dart';
+import '../model/meal_info.dart';
+import '../widgets/customDialogs/meal_verification_dialog.dart';
+import '../widgets/meal_tile.dart';
+import 'meals_qr_controller.dart';
 // import 'package:connectivity/connectivity.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class MealScreen extends StatefulWidget {
+  const MealScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MealScreenState createState() => _MealScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final homeControllerPut = Get.put(HomeController());
+class _MealScreenState extends State<MealScreen> with TickerProviderStateMixin {
+  final mealControllerPut = Get.put(MealController());
   String reload = "";
 
-  final TextEditingController firstnameController = TextEditingController();
-  final TextEditingController lastnameController = TextEditingController();
-  final TextEditingController companynameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-
   Future<void> verifiedDialog(
-      double height, double width, UserInfo user) async {
-    homeControllerPut.getDelegates();
+      double height, double width, MealInfo meal) async {
+    mealControllerPut.getSubscribers();
     await Get.dialog(
-        VerificationDialog(height: height, width: width, user: user),
+        MealVerificationDialog(height: height, width: width, meal: meal),
         barrierDismissible: false);
   }
 
   @override
   void initState() {
-    homeControllerPut.getDelegates();
+    mealControllerPut.getSubscribers();
     super.initState();
   }
 
@@ -66,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           titleSpacing: 00.0,
           centerTitle: true,
           title: const Text(
-            "Miscon Checkin",
+            "MEAL CHECK-IN",
             style: TextStyle(color: Colors.white, fontSize: 15),
           ),
           leading: BackButton(
@@ -107,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     const SizedBox(
                       width: 400,
                       height: 300,
-                      child: zeucpcmScanner(),
+                      child: MealsScanner(),
                     ),
 
                     //Display a list of checkedIn Users
@@ -118,9 +109,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Obx(
-                            () => homeControllerPut.user.isEmpty
+                            () => mealControllerPut.meal.isEmpty
                                 ? const Text(
-                                    "No user checked in yet on your device",
+                                    "No meal record as yet. ",
                                     style: AppStyleText.infoDetailR16S,
                                   )
                                 :
@@ -128,12 +119,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 //Gets delegates count
                                 RichText(
                                     text: TextSpan(
-                                      text: "Checked In Attendees",
+                                      text: "Meal Checkin ",
                                       style: AppStyleText.infoDetailR16S,
                                       children: [
                                         TextSpan(
                                           text:
-                                              "${homeControllerPut.user.length}",
+                                              "${mealControllerPut.meal.length}",
                                           style: AppStyleText.infoDetailR16D7,
                                         )
                                       ],
@@ -147,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     //DISPLAYS DELEGATES CHECKED IN
                     Obx(
                       () => Expanded(
-                        child: homeControllerPut.user.isEmpty
+                        child: mealControllerPut.meal.isEmpty
                             ? const Align(
                                 alignment: Alignment.center,
                                 child: Column(
@@ -155,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     Icon(
                                       Icons.list_rounded,
                                       color: AppColors.secondaryIconColor,
-                                      size: 80,
+                                      size: 70,
                                     ),
                                     Text(
                                       'Scan QR to check in',
@@ -165,13 +156,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                               )
                             : ListView.builder(
-                                itemCount: homeControllerPut.user.length,
+                                itemCount: mealControllerPut.meal.length,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return UserTile(
+                                  return MealTile(
                                       width: width,
-                                      user: homeControllerPut.user[index],
-                                      formattedDate: homeControllerPut
+                                      meal: mealControllerPut.meal[index],
+                                      formattedDate: mealControllerPut
                                           .formattedDate[index]);
                                 },
                               ),
@@ -183,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
               //Widgets displayed when scanning is in progress
               Obx(() => Center(
-                  child: homeControllerPut.scanning.isTrue
+                  child: mealControllerPut.scanning.isTrue
                       ? Container(
                           width: width,
                           height: height,

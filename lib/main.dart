@@ -24,10 +24,15 @@ void main() async {
     join(await getDatabasesPath(), 'miscon_delegates.db'),
     onCreate: (db, version) {
       db.execute(
-        'CREATE TABLE IF NOT EXISTS subscribers(id INTEGER PRIMARY KEY, fname TEXT, lname TEXT, username TEXT, email TEXT, image TEXT, checkinStatus INTEGER)',
+        'CREATE TABLE IF NOT EXISTS subscribers(id TEXT PRIMARY KEY, title TEXT, institute TEXT, username TEXT, selectedRoom TEXT, image TEXT, checkinStatus TEXT)',
       );
+
+      db.execute(
+        'CREATE TABLE IF NOT EXISTS canteen(id TEXT PRIMARY KEY, username TEXT, mealName TEXT, checkinStatus TEXT)',
+      );
+
       return db.execute(
-        'CREATE TABLE IF NOT EXISTS delegates(id INTEGER PRIMARY KEY, fname TEXT, lname TEXT, username TEXT, email TEXT, image TEXT, checkinStatus INTEGER)',
+        'CREATE TABLE IF NOT EXISTS delegates(id TEXT PRIMARY KEY, title TEXT, institute TEXT, username TEXT, selectedRoom TEXT, image TEXT, checkinStatus TEXT)',
       );
     },
     version: 1,
@@ -43,39 +48,38 @@ void main() async {
     );
   }
 
-  Future<void> readCSVAndInsertToSQLite(List<List<dynamic>> csvData) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool hasRunBefore = prefs.getBool('hasRunBefore') ?? false;
+  // Future<void> readCSVAndInsertToSQLite(List<List<dynamic>> csvData) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool hasRunBefore = prefs.getBool('hasRunBefore') ?? false;
 
-    if (!hasRunBefore) {
-      List<List<dynamic>> csvTable = csvData;
+  //   if (!hasRunBefore) {
+  //     List<List<dynamic>> csvTable = csvData;
 
-      List<DelegateInfo> dataToInsert = [];
-      for (var row in csvTable) {
-        dataToInsert.add(DelegateInfo(
-          id: row[0],
-          fname: row[1],
-          lname: row[2],
-          username: row[3],
-          email: row[4],
-          image: row[5],
-          checkinStatus: row[6],
-        ));
-      }
-      for (var data in dataToInsert) {
-        insertDelegate(data);
-      }
+  //     List<DelegateInfo> dataToInsert = [];
+  //     for (var row in csvTable) {
+  //       dataToInsert.add(DelegateInfo(
+  //         id: row[0],
+  //         title: row[1],
+  //         institute: row[2],
+  //         username: row[3],
+  //         selectedRoom: row[4],
+  //         checkinStatus: row[5],
+  //       ));
+  //     }
+  //     for (var data in dataToInsert) {
+  //       insertDelegate(data);
+  //     }
 
-      print('This code runs only once on application installation.');
+  //     print('This code runs only once on application installation.');
 
-      await prefs.setBool('hasRunBefore', true);
-    }
-  }
+  //     await prefs.setBool('hasRunBefore', true);
+  //   }
+  // }
 
-  String csvString = await rootBundle.loadString('assets/delegates.csv');
-  List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvString);
+  // String csvString = await rootBundle.loadString('assets/delegates.csv');
+  // List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvString);
 
-  await readCSVAndInsertToSQLite(csvTable);
+  // await readCSVAndInsertToSQLite(csvTable);
 
   runApp(const MyApp());
 }

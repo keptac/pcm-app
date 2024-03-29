@@ -46,17 +46,8 @@ class VerificationDialog extends StatelessWidget {
                     )),
               ),
             ),
-            SizedBox(
-              child: CircleAvatar(
-                radius: 40.0,
-                backgroundImage: NetworkImage(user.image),
-                backgroundColor: Colors.transparent,
-              ),
-              height: 20,
-              width: 20,
-            ),
             Text(
-              user.fname + " " + user.lname,
+              user.username,
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 20,

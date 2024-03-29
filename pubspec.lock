@@ -155,6 +155,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_vcard:
+    dependency: "direct main"
+    description:
+      name: flutter_vcard
+      sha256: e0d220e963e13546967ae94126d01691fe9a0fb1dffebff97b9e1261ee31f610
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   flutter_web_plugins:
     dependency: transitive
     description: flutter

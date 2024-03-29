@@ -5,6 +5,7 @@ import 'package:zeucpcm/model/delegate_info.dart';
 import 'package:zeucpcm/model/user_info.dart';
 import 'package:zeucpcm/model/user_role.dart';
 import 'package:zeucpcm/services/api.dart';
+import 'package:zeucpcm/services/pcm_services.dart';
 import 'package:zeucpcm/widgets/customDialogs/already_checked_dialog.dart';
 import 'package:zeucpcm/widgets/customDialogs/create_user_dialog.dart';
 import 'package:zeucpcm/widgets/customDialogs/signout_dialog.dart';
@@ -32,11 +33,10 @@ class HomeController extends GetxController {
     for (var delegate in delegates) {
       value = UserInfo(
         id: delegate.id,
-        fname: delegate.fname,
-        lname: delegate.lname,
+        title: delegate.title,
+        institute: delegate.institute,
         username: delegate.username,
-        email: delegate.email,
-        image: delegate.image,
+        selectedRoom: delegate.selectedRoom,
         checkinStatus: delegate.checkinStatus,
         roleId: 1,
         userRole: UserRole(
@@ -46,8 +46,7 @@ class HomeController extends GetxController {
             status: 1),
       );
       scanning.value = false;
-      formattedDate
-          .add(DateFormat('kk:mm:ss | EEE d MMM').format(DateTime.now()));
+      formattedDate.add(DateFormat('kk:mm | EEE d MMM').format(DateTime.now()));
       user.add(value);
     }
   }
@@ -61,11 +60,10 @@ class HomeController extends GetxController {
     for (var delegate in delegates) {
       value = UserInfo(
         id: delegate.id,
-        fname: delegate.fname,
-        lname: delegate.lname,
+        title: delegate.title,
+        institute: delegate.institute,
         username: delegate.username,
-        email: delegate.email,
-        image: delegate.image,
+        selectedRoom: delegate.selectedRoom,
         checkinStatus: delegate.checkinStatus,
         roleId: 1,
         userRole: UserRole(
@@ -87,33 +85,31 @@ class HomeController extends GetxController {
     var userId = zeucpcmResult?.code;
 
     List<DelegateInfo> delegate =
-        await Api().getDelegateById(int.parse(userId.toString()));
+        await Api().getDelegateById(userId.toString());
 
     if (delegate.isNotEmpty) {
       var value = UserInfo(
         id: delegate[0].id,
-        fname: delegate[0].fname,
-        lname: delegate[0].lname,
+        title: delegate[0].title,
+        institute: delegate[0].institute,
         username: delegate[0].username,
-        email: delegate[0].email,
-        image: delegate[0].image,
+        selectedRoom: delegate[0].selectedRoom,
         checkinStatus: delegate[0].checkinStatus,
         roleId: 1,
         userRole: UserRole(
             id: 1,
-            name: "Delegate",
+            name: delegate[0].title,
             slug: "Our highly esteemed delegate",
             status: 1),
       );
 
       var updatedDelegate = DelegateInfo(
           id: delegate[0].id,
-          fname: delegate[0].fname,
-          lname: delegate[0].lname,
+          title: delegate[0].title,
+          institute: delegate[0].institute,
           username: delegate[0].username,
-          email: delegate[0].email,
-          image: delegate[0].image,
-          checkinStatus: 1);
+          selectedRoom: delegate[0].selectedRoom,
+          checkinStatus: "CHECKED IN");
 
       await Api().subscribeUser(updatedDelegate);
       verifiedDialog(height, width, value);
@@ -123,61 +119,91 @@ class HomeController extends GetxController {
     scanning.value = false;
   }
 
+  String? extractPhoneNumber(String vcardData) {
+    RegExp telRegExp = RegExp(r'TEL:(\d+)');
+    Match telMatch = telRegExp.firstMatch(vcardData) as Match;
+    return telMatch.group(1);
+  }
+
   // Scanning to find checking in user
   void setQRUrl(Barcode? zeucpcmResult, double height, double width) async {
-    var userId = zeucpcmResult?.code;
+    var variable = zeucpcmResult?.code;
 
-    List<DelegateInfo> delegate =
-        await Api().getDelegateById(int.parse(userId.toString()));
+    String? phoneNumber = extractPhoneNumber(variable.toString());
 
-    if (delegate.isNotEmpty) {
-      var value = UserInfo(
-        id: delegate[0].id,
-        fname: delegate[0].fname,
-        lname: delegate[0].lname,
-        username: delegate[0].username,
-        email: delegate[0].email,
-        image: delegate[0].image,
-        checkinStatus: delegate[0].checkinStatus,
-        roleId: 1,
-        userRole: UserRole(
-            id: 1,
-            name: "Delegate",
-            slug: "Our highly esteemed delegate",
-            status: 1),
-      );
+    var requestBody = <String, dynamic>{};
+    var request = <String, dynamic>{};
 
-      if (delegate[0].checkinStatus == 1) {
-        alreadyVerifiedDialog(height, width, value);
+    requestBody['phoneNumber'] = phoneNumber.toString();
+    request['operation'] = "checking";
+    request['requestBody'] = requestBody;
+
+    var fullResponse;
+
+    PCMServices.checkin(request).then((response) {
+      fullResponse = response.responseBody["user"];
+
+      if (response.success == true) {
+        Get.snackbar(
+          'Success',
+          response.responseBody['message'],
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color.fromARGB(190, 113, 50, 223),
+          margin: const EdgeInsets.all(15),
+          isDismissible: true,
+          colorText: Colors.white,
+        );
+
+        if (fullResponse.isNotEmpty) {
+          var value = UserInfo(
+            id: fullResponse['_id'],
+            username: fullResponse['username'],
+            title: fullResponse['title'],
+            institute: fullResponse['institute'],
+            selectedRoom: fullResponse['selectedRoom'],
+            checkinStatus: fullResponse['checkinStatus'],
+            roleId: 1,
+            userRole: UserRole(
+                id: 1,
+                name: "Delegate",
+                slug: "Our highly esteemed delegate",
+                status: 1),
+          );
+
+          if (fullResponse['checkinStatus'] != "CHECKED IN") {
+            alreadyVerifiedDialog(height, width, value);
+          } else {
+            var updatedDelegate = DelegateInfo(
+              id: fullResponse['_id'],
+              username: fullResponse['username'],
+              title: fullResponse['title'],
+              institute: fullResponse['institute'],
+              selectedRoom: fullResponse['selectedRoom'],
+              checkinStatus: fullResponse['checkinStatus'],
+            );
+
+            Api().insertDelegate(updatedDelegate);
+            verifiedDialog(height, width, value);
+
+            update();
+
+            // Navigator.popAndPushNamed(context, '/home');
+            //
+          }
+        }
       } else {
-        var updatedDelegate = DelegateInfo(
-            id: delegate[0].id,
-            fname: delegate[0].fname,
-            lname: delegate[0].lname,
-            username: delegate[0].username,
-            email: delegate[0].email,
-            image: delegate[0].image,
-            checkinStatus: 1);
-
-        await Api().updateDelegateAttendance(updatedDelegate);
-        // Navigator.popAndPushNamed(context, '/home');
-        verifiedDialog(height, width, value);
-        update();
+        Get.snackbar(
+          'Error',
+          response.responseBody['message'],
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color.fromARGB(190, 2, 0, 0),
+          margin: const EdgeInsets.all(15),
+          isDismissible: true,
+          colorText: Colors.white,
+        );
       }
-    } else {
-      var updatedDelegate = const DelegateInfo(
-          id: 93343,
-          fname: 'GUEST',
-          lname: 'USER',
-          username: 'KEPTAC',
-          email: 'guest@zeucpcm.org',
-          image: 'image',
-          checkinStatus: 1);
+    });
 
-      Api().insertDelegate(updatedDelegate);
-      unVerifiedDialog(height, width);
-      update();
-    }
     scanning.value = false;
   }
 
@@ -194,9 +220,9 @@ class HomeController extends GetxController {
     user.clear();
   }
 
-  Future<void> createUserDialog(double height, double width) async {
-    CreateUserDialog(height: height, width: width);
-  }
+  // Future<void> createUserDialog(double height, double width) async {
+  //   CreateUserDialog(height: height, width: width);
+  // }
 
   Future<void> signOutDialog(double height, double width) async {
     await Get.dialog(SignOutDialog(height: height, width: width));

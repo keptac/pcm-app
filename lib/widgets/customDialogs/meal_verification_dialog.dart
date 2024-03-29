@@ -6,17 +6,19 @@ import 'package:zeucpcm/styles/app_styletext.dart';
 import 'package:zeucpcm/utils/constants/size_constants.dart';
 import 'package:get/get.dart';
 
-class AlreadyCheckedDialog extends StatelessWidget {
-  AlreadyCheckedDialog({
+import '../../model/meal_info.dart';
+
+class MealVerificationDialog extends StatelessWidget {
+  MealVerificationDialog({
     Key? key,
     required this.height,
     required this.width,
-    required this.user,
+    required this.meal,
   }) : super(key: key);
 
   final double height;
   final double width;
-  final UserInfo user;
+  final MealInfo meal;
   final homeController = Get.find<HomeController>();
 
   @override
@@ -46,17 +48,8 @@ class AlreadyCheckedDialog extends StatelessWidget {
                     )),
               ),
             ),
-            const SizedBox(
-              child: CircleAvatar(
-                radius: 40.0,
-                // backgroundImage: NetworkImage(user.image),
-                backgroundColor: Colors.transparent,
-              ),
-              height: 20,
-              width: 20,
-            ),
             Text(
-              user.username,
+              meal.username,
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 20,
@@ -64,12 +57,12 @@ class AlreadyCheckedDialog extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
             Text(
-              "@" + user.username,
+              "Checked in for " + meal.mealName,
               textAlign: TextAlign.center,
               style: AppStyleText.infoDetailR16W4,
             ),
             Text(
-              user.userRole.name,
+              meal.checkinStatus,
               textAlign: TextAlign.center,
               style: AppStyleText.infoDetailR16W4,
             ),
@@ -78,12 +71,12 @@ class AlreadyCheckedDialog extends StatelessWidget {
               width: width,
               height: height * 0.08,
               decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 2, 95, 16),
+                  color: AppColors.butttoColor,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10))),
               child: const Text(
-                'Already Checked In. Thank you for attending',
+                'Success',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18, color: AppColors.white),
               ),

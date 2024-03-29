@@ -39,7 +39,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
   final TextEditingController firstnameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
   final TextEditingController companynameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController selectedRoomController = TextEditingController();
 
   Future<void> verifiedDialog(
       double height, double width, UserInfo user) async {
@@ -49,45 +49,6 @@ class _SubscribeScreenState extends State<SubscribeScreen>
         barrierDismissible: false);
   }
 
-  void subscribeUser(BuildContext context) {
-    Random random = Random();
-    int min = 1000000; // Minimum 7-digit number (1,000,000)
-    int max = 9999999; // Maximum 7-digit number (9,999,999)
-    int randomId = min + random.nextInt(max - min);
-    var updatedDelegate = DelegateInfo(
-        id: randomId,
-        fname: firstnameController.text,
-        lname: lastnameController.text,
-        username: companynameController.text,
-        email: emailController.text,
-        image: 'image',
-        checkinStatus: 1);
-
-    var value = UserInfo(
-      id: updatedDelegate.id,
-      fname: updatedDelegate.fname,
-      lname: updatedDelegate.lname,
-      username: updatedDelegate.username,
-      email: updatedDelegate.email,
-      image: updatedDelegate.image,
-      checkinStatus: updatedDelegate.checkinStatus,
-      roleId: 1,
-      userRole: UserRole(
-          id: 1,
-          name: "Delegate",
-          slug: "Our highly esteemed delegate",
-          status: 1),
-    );
-    firstnameController.clear();
-    lastnameController.clear();
-    companynameController.clear();
-    emailController.clear();
-
-    Api().subscribeUser(updatedDelegate);
-    Navigator.popAndPushNamed(context, '/subscribe');
-
-    verifiedDialog(500, 500, value);
-  }
 
   @override
   void initState() {
@@ -126,11 +87,11 @@ class _SubscribeScreenState extends State<SubscribeScreen>
           const SizedBox(height: 22),
           KInputField(
               width: width * 0.42,
-              hintText: "Email Address",
+              hintText: "selectedRoom Address",
               prefixIcon: const SizedBox(),
               suffixIcon: const SizedBox(),
               textInputType: TextInputType.text,
-              controller: emailController,
+              controller: selectedRoomController,
               hintTextStyle: AppStyleText.infoDetailM16S5,
               textStyle: AppStyleText.infoDetailM16P5,
               suffixText: ''),
@@ -151,7 +112,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
             children: [
               CustomRaisedBtn(
                   onPressed: () {
-                    subscribeUser(context);
+                    // subscribeUser(context);
                     // Get.back();
                   },
                   borderRadius: Sizes.dimen_18,

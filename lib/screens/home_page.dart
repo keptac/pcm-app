@@ -1,10 +1,12 @@
 import 'package:zeucpcm/screens/login_screen.dart';
+import 'package:zeucpcm/screens/meal_screen.dart';
 import 'package:zeucpcm/utils/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:zeucpcm/utils/constants.dart';
 
+import '../widgets/customDialogs/meal_verification_dialog.dart';
 import 'home_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,13 +21,27 @@ class _HomePageState extends State<HomePage> {
     [
       {
         "name": "CHECK IN",
-        "icon": "assets/svg/billpayments.svg",
+        "icon": "assets/images/checkin.png",
         "key": "checkin",
         "page": "checkin"
       },
       {
         "name": "MEALS",
-        "icon": "assets/svg/billstatement.svg",
+        "icon": "assets/images/dining.png",
+        "key": "meals",
+        "page": "meals"
+      },
+    ],
+    [
+      {
+        "name": "CHECK IN",
+        "icon": "assets/images/checkin.png",
+        "key": "checkin",
+        "page": "checkin"
+      },
+      {
+        "name": "MEALS",
+        "icon": "assets/images/dining.png",
         "key": "meals",
         "page": "meals"
       },
@@ -43,6 +59,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         // toolbarHeight: 2,
@@ -142,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(
-                height: 70.0,
+                height: 160,
               ),
               SizedBox(
                 height: 300,
@@ -197,9 +217,11 @@ Widget serviceCard(
               );
               break;
             case "meals":
+
+              //Popup with information to select day and meal then pass to next scanning page
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                MaterialPageRoute(builder: (context) => const MealScreen()),
               );
               break;
           }
@@ -226,22 +248,21 @@ Widget serviceCard(
             children: [
               Align(
                 alignment: Alignment.center,
-                child: SvgPicture.asset(
-                  item["icon"],
-                  height: SizeUtil.height(context, 0.04),
-                  width: SizeUtil.width(context, 0.03),
-                  // color: isActive ? Colors.white : Constants.greenColor,
-                  color: isActive
-                      ? const Color.fromARGB(255, 100, 13, 13)
-                      : const Color.fromARGB(255, 54, 13, 100),
+                child: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: Image.asset(
+                    item["icon"],
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               ),
               Text(
                 item["name"],
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.0,
                     color: isActive
                         ? Colors.black
                         : const Color.fromRGBO(20, 20, 20, 0.96)),

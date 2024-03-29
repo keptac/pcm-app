@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:zeucpcm/controllers/home_controller.dart';
 import 'package:zeucpcm/model/delegate_info.dart';
+import 'package:zeucpcm/model/meal_info.dart';
 import 'package:zeucpcm/model/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,8 +32,8 @@ class Api {
 
     final db = await database;
 
-    final List<Map<String, dynamic>> delegates =
-        await db.query('delegates', where: 'checkinStatus = ?', whereArgs: [1]);
+    final List<Map<String, dynamic>> delegates = await db.query('delegates',
+        where: 'checkinStatus = ?', whereArgs: ["CHECKED IN"]);
 
     List<DelegateInfo> delegatesList = delegates.isNotEmpty
         ? List.generate(
@@ -40,11 +41,10 @@ class Api {
             (i) {
               return DelegateInfo(
                   id: delegates[i]['id'],
-                  fname: delegates[i]['fname'],
-                  lname: delegates[i]['lname'],
+                  title: delegates[i]['title'],
+                  institute: delegates[i]['institute'],
                   username: delegates[i]['username'],
-                  email: delegates[i]['email'],
-                  image: delegates[i]['image'],
+                  selectedRoom: delegates[i]['selectedRoom'],
                   checkinStatus: delegates[i]['checkinStatus']);
             },
           )
@@ -70,11 +70,10 @@ class Api {
             (i) {
               return DelegateInfo(
                   id: delegates[i]['id'],
-                  fname: delegates[i]['fname'],
-                  lname: delegates[i]['lname'],
+                  title: delegates[i]['title'],
+                  institute: delegates[i]['institute'],
                   username: delegates[i]['username'],
-                  email: delegates[i]['email'],
-                  image: delegates[i]['image'],
+                  selectedRoom: delegates[i]['selectedRoom'],
                   checkinStatus: delegates[i]['checkinStatus']);
             },
           )
@@ -82,6 +81,49 @@ class Api {
 
     return delegatesList;
   }
+
+  Future<List<MealInfo>> getMealsSubscribers() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    final database = openDatabase(
+      join(await getDatabasesPath(), 'miscon_delegates.db'),
+    );
+
+    final db = await database;
+
+    final List<Map<String, dynamic>> meals = await db.query('canteen');
+
+    List<MealInfo> delegatesList = meals.isNotEmpty
+        ? List.generate(
+            meals.length,
+            (i) {
+              return MealInfo(
+                  id: meals[i]['id'],
+                  mealName: meals[i]['mealName'],
+                  username: meals[i]['username'],
+                  checkinStatus: meals[i]['checkinStatus']);
+            },
+          )
+        : <MealInfo>[];
+
+    return delegatesList;
+  }
+
+  Future<void> insertMeal(MealInfo meal) async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    final database = openDatabase(
+      join(await getDatabasesPath(), 'miscon_delegates.db'),
+    );
+    final db = await database;
+
+    await db.insert(
+      'canteen',
+      meal.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
 
 //Add subscriber
   Future<void> subscribeUser(
@@ -138,7 +180,7 @@ class Api {
   }
 
 // Get Delegate by ID
-  Future<List<DelegateInfo>> getDelegateById(int id) async {
+  Future<List<DelegateInfo>> getDelegateById(String id) async {
     WidgetsFlutterBinding.ensureInitialized();
 
     final database = openDatabase(
@@ -156,11 +198,10 @@ class Api {
             (i) {
               return DelegateInfo(
                   id: delegates[i]['id'],
-                  fname: delegates[i]['fname'],
-                  lname: delegates[i]['lname'],
+                  title: delegates[i]['title'],
+                  institute: delegates[i]['institute'],
                   username: delegates[i]['username'],
-                  email: delegates[i]['email'],
-                  image: delegates[i]['image'],
+                  selectedRoom: delegates[i]['selectedRoom'],
                   checkinStatus: delegates[i]['checkinStatus']);
             },
           )

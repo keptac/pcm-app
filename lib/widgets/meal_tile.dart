@@ -5,16 +5,18 @@ import 'package:zeucpcm/styles/app_styletext.dart';
 import 'package:zeucpcm/utils/constants/size_constants.dart';
 import 'package:intl/intl.dart';
 
-class UserTile extends StatelessWidget {
-  const UserTile(
+import '../model/meal_info.dart';
+
+class MealTile extends StatelessWidget {
+  const MealTile(
       {Key? key,
       required this.width,
-      required this.user,
+      required this.meal,
       required this.formattedDate})
       : super(key: key);
 
   final double width;
-  final UserInfo user;
+  final MealInfo meal;
   final String formattedDate;
   @override
   Widget build(BuildContext context) {
@@ -38,11 +40,11 @@ class UserTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user.username,
+                        meal.username,
                         style: AppStyleText.largeTitleM18P,
                       ),
-                      const Text(
-                        "Checked In",
+                      Text(
+                        meal.mealName,
                         style: AppStyleText.infoDetailR16S,
                       ),
                     ],
@@ -51,8 +53,7 @@ class UserTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(user.title, style: AppStyleText.infoDetailR16D7),
-
+                      Text(meal.mealName, style: AppStyleText.infoDetailR16D7),
                     ],
                   ),
                 ],

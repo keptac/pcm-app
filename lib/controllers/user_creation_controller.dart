@@ -14,12 +14,12 @@ class CreateUserController extends GetxController {
   final TextEditingController firstnameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
   final TextEditingController companynameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController selectedRoomController = TextEditingController();
 
   String get firstname => firstnameController.text.trim();
   String get lastname => lastnameController.text.trim();
   String get companyname => companynameController.text.trim();
-  String get email => emailController.text.trim();
+  String get selectedRoom => selectedRoomController.text.trim();
 
   final obsecureText = true.obs;
 
@@ -29,23 +29,21 @@ class CreateUserController extends GetxController {
 
   void login(BuildContext context) {
     var updatedDelegate = DelegateInfo(
-        id: 93343,
-        fname: firstname,
-        lname: lastname,
+        id: "93343",
+        title: firstname,
+        institute: lastname,
         username: companyname,
-        email: email,
-        image: 'image',
-        checkinStatus: 1);
+        selectedRoom: selectedRoom,
+        checkinStatus: "CHECKED IN");
 
     print(updatedDelegate.toString);
 
     var value = UserInfo(
       id: updatedDelegate.id,
-      fname: updatedDelegate.fname,
-      lname: updatedDelegate.lname,
+      title: updatedDelegate.title,
+      institute: updatedDelegate.institute,
       username: updatedDelegate.username,
-      email: updatedDelegate.email,
-      image: updatedDelegate.image,
+      selectedRoom: updatedDelegate.selectedRoom,
       checkinStatus: updatedDelegate.checkinStatus,
       roleId: 1,
       userRole: UserRole(
@@ -68,7 +66,7 @@ class CreateUserController extends GetxController {
   }
 
   void authFailed(BuildContext context) {
-    Get.snackbar('Failed', "Password or Email is wrong",
+    Get.snackbar('Failed', "Password or selectedRoom is wrong",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         margin: const EdgeInsets.all(16),
@@ -86,7 +84,7 @@ class CreateUserController extends GetxController {
         isDismissible: true,
         colorText: Colors.white,
         maxWidth: MediaQuery.of(context).size.width * 0.35);
-    Get.offNamed('/home');
+    Get.off('/home');
   }
 
   void setObsecureText(bool value) {
